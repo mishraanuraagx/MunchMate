@@ -80,6 +80,19 @@
         .response .message-content {
             white-space: pre-wrap;
         }
+
+        #loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            color: white;
+            border-radius: 5px;
+        }
+
     </style>
 </head>
 <body>
@@ -95,10 +108,15 @@
         <span class="message-content"></span>
     </div>
 
+    <div id="loading">Busy...</div>
+
     <script>
         document.getElementById("chatForm").addEventListener("submit", function(event) {
             event.preventDefault();
             const userQuery = document.getElementById("userQuery").value;
+            const loadingDiv = document.getElementById("loading");
+            loadingDiv.style.display = "block";
+
             fetch("/api/ask/", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -108,8 +126,13 @@
             .then(data => {
                 document.getElementById("responseContainer").style.display = "block";
                 document.querySelector("#responseContainer .message-content").innerHTML = data.response;
+                loadingDiv.style.display = "none";
             })
-            .catch(error => console.error("Error:", error));
+            .catch(error => {
+                console.error("Error:", error);
+                loadingDiv.style.display = "none";
+                alert("An error occurred. Check the console.");
+            });
         });
     </script>
 </body>

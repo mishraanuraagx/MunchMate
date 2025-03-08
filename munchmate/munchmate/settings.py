@@ -76,6 +76,7 @@ WSGI_APPLICATION = 'munchmate.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+## Prod: Docker
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
@@ -87,6 +88,7 @@ DATABASES = {
     }
 }
 
+## dev: localhost
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -140,5 +142,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = 'login/'
+LOGIN_URL = 'admin/login/'
 
