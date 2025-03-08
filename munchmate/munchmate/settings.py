@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'chatbot.apps.ChatbotConfig'
     'recipes',
     'chatbot'
 ]
@@ -77,28 +76,28 @@ WSGI_APPLICATION = 'munchmate.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 ## Prod: Docker
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": "munchmate",
-        "USER": "root",
-        "PASSWORD": "test123",
-        "HOST": "mysql-db",
-        "PORT": "3306",
-    }
-}
-
-## dev: localhost
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'munchmate',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
+#     "default": {
+#         "ENGINE": "django.db.backends.mysql",
+#         "NAME": "munchmate",
+#         "USER": "root",
+#         "PASSWORD": "test123",
+#         "HOST": "mysql-db",
+#         "PORT": "3306",
 #     }
 # }
+
+## dev: localhost
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'munchmate',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
 
 
 # Password validation

@@ -1,4 +1,3 @@
-# import random
 import openai
 from django.http import JsonResponse
 from recipes.models import Recipe
@@ -16,6 +15,7 @@ client = openai.OpenAI(api_key=api_key)
 
 # APIs
 def chatbot_home(request):
+    """Renders the chatbot's home page."""
     # return JsonResponse({"message": "Welcome to MunchMate! Your partner for popular recipe search."})
     return render(request, "chatbot/home_page.html")
 
@@ -23,6 +23,8 @@ def chatbot_home(request):
 # API: Handle User Chat & Save to DB
 @csrf_exempt
 def chatbot_view(request):
+    """Handles chatbot requests, either POST for queries or GET to retrieve all chats."""
+
     if request.method == "POST":
         data = json.loads(request.body)
         user_message = data.get("message", "").lower()
@@ -40,6 +42,7 @@ def chatbot_view(request):
 
 @csrf_exempt
 def simulate_conversation(request):
+    """Simulates a series of conversations between two ChatGPT instances."""
     if request.method == "POST":
         data = json.loads(request.body)
         count = data.get("count", "")
@@ -59,6 +62,7 @@ def simulate_conversation(request):
 
 
 def get_all_chats(request):
+    """Retrieves and returns all chat conversations from the database."""
     chats = Conversation.objects.all().order_by("timestamp")
     chat_list = [
         {"sender": chat.sender, "recipient": chat.recipient, "user_query": chat.message, "AI_response": chat.response,
@@ -68,11 +72,13 @@ def get_all_chats(request):
 
 # format responses (like remove unicode) prior to saving it in DB
 def format_response(text):
+    """Removes non-ASCII characters from a string."""
     return re.sub(r"[^\x00-\x7F]+", "", text)
 
 
 # HTML/UI
 def all_chats(request):
+    """Renders a page displaying all chat conversations."""
     chats = Conversation.objects.all().order_by("-timestamp")
     for chat in chats:
         chat.response = format_bolden(chat.response)
@@ -81,13 +87,16 @@ def all_chats(request):
 
 
 def chat_form(request):
+    """Renders the chat input form."""
     return render(request, "chatbot/fav_food_query.html")
 
 def simulate_conversation_view(request):
+    """Renders the simulation view form."""
     return render(request, "chatbot/simulation_view.html")
 
 
 def format_bolden(text):
+    """Formats bold text in a string using HTML <strong> tags."""
     text = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", text)
     text = mark_safe(text)  # mark it safe
     return text
@@ -95,6 +104,7 @@ def format_bolden(text):
 
 def query_chatGPT(user_message, temperature: float = 1, max_completion_tokens=2048, save_to_db=False,
                   imitate_user=False):
+    """Queries ChatGPT for a response based on the user's message and optional recipe context."""
     if not imitate_user:
         recipe_type = 2
         if "vegan" in user_message:
