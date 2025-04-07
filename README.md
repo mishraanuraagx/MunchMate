@@ -1,5 +1,5 @@
 # MunchMate - Your Culinary AI Companion
-## live version: http://18.157.168.212:8000/
+## live version: [http://18.157.168.212:8000/](http://192.248.182.33:8000/)
 MunchMate is a web application designed to be your go-to culinary assistant. It integrates an LLM service (powered by OpenAI/ChatGPT) with a recipe database to provide intelligent food recommendations and conversational experiences.
 
 ## What MunchMate Does
